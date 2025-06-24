@@ -1,4 +1,8 @@
-﻿using CommunityToolkit.Maui;
+﻿using Application;
+using CommunityToolkit.Maui;
+using Core.Interfaces;
+using DataAccess;
+using Infrastructure;
 using Microsoft.Extensions.Logging;
 using MiniMap.ViewModels;
 using MiniMap.Views;
@@ -20,6 +24,10 @@ namespace MiniMap
                 });
 
             builder.Services.AddSingleton<MainView, MainViewModel>();
+
+            builder.Services.AddSingleton<ILocationController, LocationController>();
+            builder.Services.AddSingleton<ILocationService, LocationService>();
+            builder.Services.AddSingleton<ILocationRepository, LocationRepository>();
 
 #if DEBUG
             builder.Logging.AddDebug();

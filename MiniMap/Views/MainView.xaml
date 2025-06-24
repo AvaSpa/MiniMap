@@ -4,7 +4,10 @@
              xmlns:vm="clr-namespace:MiniMap.ViewModels"  
              x:Class="MiniMap.Views.MainView"  
              x:DataType="vm:MainViewModel">
-    <Grid>
+    <Grid RowDefinitions="Auto, *">
+
+        <Button Text="Save Current Location" Command="{Binding SaveCurrentLocationCommand}" 
+                HorizontalOptions="Start" VerticalOptions="Start"/>
 
     </Grid>
 </ContentPage>
