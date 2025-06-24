@@ -1,22 +1,29 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Core.Interfaces;
+using Core.Commands;
+using MediatR;
 
 namespace MiniMap.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private readonly ILocationController _locationController;
+    private readonly IMediator _mediator;
 
-    public MainViewModel(ILocationController locationController)
+    [ObservableProperty]
+    private string _progressText = "Ready to save location";
+
+    public MainViewModel(IMediator mediator)
     {
-        _locationController = locationController;
+        _mediator = mediator;
     }
-
 
     [RelayCommand]
     private async Task SaveCurrentLocation()
     {
-        await _locationController.SaveCurrentLocation();
+        ProgressText = "Saving current location...";
+
+        await _mediator.Send(new SaveCurrentLocationCommand());
+
+        ProgressText = "Current location saved successfully!";
     }
 }

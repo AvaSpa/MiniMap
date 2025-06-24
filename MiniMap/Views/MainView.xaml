@@ -6,8 +6,12 @@
              x:DataType="vm:MainViewModel">
     <Grid RowDefinitions="Auto, *">
 
-        <Button Text="Save Current Location" Command="{Binding SaveCurrentLocationCommand}" 
-                HorizontalOptions="Start" VerticalOptions="Start"/>
+        <Button Grid.Row="0"
+            Text="Save Current Location" Command="{Binding SaveCurrentLocationCommand}" 
+            HorizontalOptions="Start" VerticalOptions="Start"/>
+
+        <Label Grid.Row="1"
+               Text="{Binding ProgressText}"/>
 
     </Grid>
 </ContentPage>

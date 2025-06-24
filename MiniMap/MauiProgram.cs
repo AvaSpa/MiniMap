@@ -23,9 +23,13 @@ namespace MiniMap
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+                typeof(LocationController).Assembly,
+                typeof(ILocation).Assembly
+            ));
+
             builder.Services.AddSingleton<MainView, MainViewModel>();
 
-            builder.Services.AddSingleton<ILocationController, LocationController>();
             builder.Services.AddSingleton<ILocationService, LocationService>();
             builder.Services.AddSingleton<ILocationRepository, LocationRepository>();
 
