@@ -24,7 +24,7 @@
 		<ApplicationTitle>MiniMap</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.minimap</ApplicationId>
+		<ApplicationId>com.avaspa.minimap</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -74,6 +74,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Behaviors\" />
 	  <Folder Include="Models\" />
 	</ItemGroup>
 

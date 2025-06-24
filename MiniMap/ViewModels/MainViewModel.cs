@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Commands;
+using Core.Queries;
 using MediatR;
+using MiniMap.ViewModels.Decorators;
+using System.Collections.ObjectModel;
 
 namespace MiniMap.ViewModels;
 
@@ -9,8 +12,7 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly IMediator _mediator;
 
-    [ObservableProperty]
-    private string _progressText = "Ready to save location";
+    public ObservableCollection<LocationDecoratorViewModel> Locations { get; set; } = [];
 
     public MainViewModel(IMediator mediator)
     {
@@ -20,10 +22,20 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task SaveCurrentLocation()
     {
-        ProgressText = "Saving current location...";
+        //TODO: add prompt for location name and description
 
-        await _mediator.Send(new SaveCurrentLocationCommand());
+        var savedLocation = await _mediator.Send(new SaveCurrentLocationCommand());
 
-        ProgressText = "Current location saved successfully!";
+        Locations.Add(new LocationDecoratorViewModel(savedLocation));
+    }
+
+    public async Task OnAppearing()
+    {
+        var locations = await _mediator.Send(new GetLocationsQuery(true));
+
+        Locations.Clear();
+
+        foreach (var location in locations)
+            Locations.Add(new LocationDecoratorViewModel(location));
     }
 }

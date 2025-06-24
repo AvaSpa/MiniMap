@@ -24,14 +24,18 @@ namespace MiniMap
                 });
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-                typeof(LocationController).Assembly,
-                typeof(ILocation).Assembly
-            ));
+               typeof(LocationController).Assembly,
+               typeof(ILocation).Assembly));
 
+            //views and VMs
             builder.Services.AddSingleton<MainView, MainViewModel>();
 
+            //simple dependencies
             builder.Services.AddSingleton<ILocationService, LocationService>();
-            builder.Services.AddSingleton<ILocationRepository, LocationRepository>();
+
+            //initialized dependencies
+            var dataDirectory = FileSystem.AppDataDirectory;
+            builder.Services.AddSingleton<ILocationRepository>(sp => new LocationRepository(FileSystem.AppDataDirectory));
 
 #if DEBUG
             builder.Logging.AddDebug();

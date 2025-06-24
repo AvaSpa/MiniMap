@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-             xmlns:vm="clr-namespace:MiniMap.ViewModels"  
+             xmlns:vm="clr-namespace:MiniMap.ViewModels" 
+             xmlns:decorators="clr-namespace:MiniMap.ViewModels.Decorators"
              x:Class="MiniMap.Views.MainView"  
              x:DataType="vm:MainViewModel">
+
     <Grid RowDefinitions="Auto, *">
 
         <Button Grid.Row="0"
             Text="Save Current Location" Command="{Binding SaveCurrentLocationCommand}" 
             HorizontalOptions="Start" VerticalOptions="Start"/>
 
-        <Label Grid.Row="1"
-               Text="{Binding ProgressText}"/>
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Locations}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="decorators:LocationDecoratorViewModel">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding Name}" FontSize="Medium" VerticalOptions="Center"/>
+                        <StackLayout Orientation="Vertical" Margin="8, 2, 2, 2">
+                            <Label Text="{Binding Latitude}" FontSize="Small" VerticalOptions="Center"/>
+                            <Label Text="{Binding Longitude}" FontSize="Small" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
     </Grid>
 </ContentPage>
