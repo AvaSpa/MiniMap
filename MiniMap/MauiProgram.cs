@@ -29,9 +29,11 @@ namespace MiniMap
 
             //views and VMs
             builder.Services.AddSingleton<MainView, MainViewModel>();
+            builder.Services.AddSingletonWithShellRoute<NavigationView, NavigationViewModel>(Routes.NavigationRoute);
 
             //simple dependencies
             builder.Services.AddSingleton<ILocationService, LocationService>();
+            builder.Services.AddSingleton<INavigationService, NavigationService>();
 
             //initialized dependencies
             var dataDirectory = FileSystem.AppDataDirectory;
