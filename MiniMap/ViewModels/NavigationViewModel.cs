@@ -8,18 +8,14 @@ namespace MiniMap.ViewModels;
 
 //TODO: on appearing request direction monitoring start
 // on disappearing request direction monitoring stop
-public partial class NavigationViewModel : ObservableObject, INotificationHandler<HeadingChangedNotification>
+public partial class NavigationViewModel : ObservableObject, INotificationHandler<DirectionDeltaChangedNotification>
 {
     private ILocation _destination;//TODO: get this from the main view model VIA messenger (or from where it changes)
+    // then _mediator.Send(new SetDestinationCommand(_destination));
 
-    public async Task Handle(HeadingChangedNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(DirectionDeltaChangedNotification notification, CancellationToken cancellationToken)
     {
-        //TODO: change the arrow direction to point to the current location
-        // request DirectionToLocation and adapt the following code:
-        //  double compassHeading = ...; // from Compass.Reading.HeadingMagneticNorth
-        //  double targetBearing = ...;  // from GetDirectionToLocation(...).North
-
-        //  double difference = (targetBearing - compassHeading + 360) % 360;
-        // process the difference to update the UI accordingly
+        //TODO: update the UI with the new direction delta
+        throw new NotImplementedException();
     }
 }

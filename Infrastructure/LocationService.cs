@@ -4,6 +4,9 @@ using Microsoft.Maui.Devices.Sensors;
 
 namespace Infrastructure;
 
+/// <summary>
+/// TODO: implement live location updates with start, stop methods and changed notification
+/// </summary>
 public class LocationService : ILocationService
 {
     public async Task<ILocation> GetCurrentLocation()

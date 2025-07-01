@@ -23,7 +23,7 @@ public class LocationController : IRequestHandler<SaveLocationCommand>, IRequest
 
     public async Task<ILocation> Handle(SaveCurrentLocationCommand request, CancellationToken cancellationToken)
     {
-        var location = await _locationService.GetCurrentLocation();
+        var location = await _locationService.GetCurrentLocation(); //TODO: handle all return cases properly after they are implemented in the method
 
         await _locationRepository.SaveLocation(location);
 
