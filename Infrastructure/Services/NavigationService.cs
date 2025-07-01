@@ -19,20 +19,21 @@ public class NavigationService : INavigationService
 
     public void StartMonitoringCompass()
     {
-        if (!Compass.IsMonitoring)
-            Compass.Start(SensorSpeed.Default);
+        if (Compass.IsMonitoring)
+            return;
 
-        Compass.ReadingChanged += (s, e) =>
-        {
-            _currentHeading = e.Reading.HeadingMagneticNorth;
-            _mediator.Publish(new HeadingChangedNotification(new Heading(_currentHeading)));
-        };
+        Compass.Start(SensorSpeed.Default);
+
+        Compass.ReadingChanged += OnCompassReadingChanged;
     }
 
     public void StopMonitoringCompass()
     {
-        if (Compass.IsMonitoring)
-            Compass.Stop();
+        if (!Compass.IsMonitoring)
+            return;
+
+        Compass.ReadingChanged -= OnCompassReadingChanged;
+        Compass.Stop();
     }
 
     public IHeading GetDirectionToLocation(ILocation location, ILocation currentLocation)
@@ -62,5 +63,11 @@ public class NavigationService : INavigationService
     private double RadiansToDegrees(double radians)
     {
         return radians * 180.0 / Math.PI;
+    }
+
+    private void OnCompassReadingChanged(object? sender, CompassChangedEventArgs e)
+    {
+        _currentHeading = e.Reading.HeadingMagneticNorth;
+        _mediator.Publish(new HeadingChangedNotification(new Heading(_currentHeading)));
     }
 }

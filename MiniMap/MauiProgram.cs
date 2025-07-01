@@ -16,8 +16,8 @@ namespace MiniMap
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

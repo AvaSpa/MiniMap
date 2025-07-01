@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Commands;
+using Core.Enums;
 using Core.Queries;
 using MediatR;
 using MiniMap.Utils;
@@ -14,6 +15,9 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly IMediator _mediator;
     private readonly ILocationFeatureManager _locationFeatureManager;
+
+    [ObservableProperty]
+    private LocationDecoratorViewModel? _selectedLocation;
 
     public ObservableCollection<LocationDecoratorViewModel> Locations { get; set; } = [];
 
@@ -34,23 +38,36 @@ public partial class MainViewModel : ObservableObject
 
         switch (locationSaveResult.Status)
         {
-            case Core.Enums.LocationStatus.Success:
+            case LocationStatus.Success:
                 Locations.Add(new LocationDecoratorViewModel(locationSaveResult.LocationResult.Location));
                 await Toast.Make("Location saved successfully.").Show();
                 break;
-            case Core.Enums.LocationStatus.PermissionDenied:
+            case LocationStatus.PermissionDenied:
                 await Toast.Make("Location permission denied.").Show();
                 break;
-            case Core.Enums.LocationStatus.LocationDisabled:
+            case LocationStatus.LocationDisabled:
                 _locationFeatureManager.EnsureLocationFeatureIsEnabled();//TODO: call this also before navigating to the navigation page
                 break;
-            case Core.Enums.LocationStatus.LocationUnavailable:
+            case LocationStatus.LocationUnavailable:
                 await Toast.Make("Location unavailable.").Show();
                 break;
-            case Core.Enums.LocationStatus.UnknownError:
+            case LocationStatus.UnknownError:
                 await Toast.Make("An unknown error occurred.").Show();
                 break;
         }
+    }
+
+    [RelayCommand]
+    private async Task NavigateToLocation()
+    {
+        if (SelectedLocation == null)
+            return;
+
+        _locationFeatureManager.EnsureLocationFeatureIsEnabled();
+
+        await _mediator.Send(new SetDestinationCommand(SelectedLocation.Model));
+
+        await Shell.Current.GoToAsync(Routes.NavigationRoute);
     }
 
     public async Task OnAppearing()

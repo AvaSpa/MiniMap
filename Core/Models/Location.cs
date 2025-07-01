@@ -15,4 +15,9 @@ public class Location : ILocation
         Latitude = latitude;
         Longitude = longitude;
     }
+
+    public override string ToString()
+    {
+        return $"{Name} ({Latitude}, {Longitude})";
+    }
 }

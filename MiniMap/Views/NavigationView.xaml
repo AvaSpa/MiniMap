@@ -2,11 +2,30 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:MiniMap.ViewModels" 
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MiniMap.Views.NavigationView"
-             x:DataType="vm:NavigationViewModel">
-    <Grid>
+             x:DataType="vm:NavigationViewModel"
+             x:Name="NavigationPage">
 
+    <!--TODO: try the same with MainView-->
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            Command="{Binding AppearingCommand}"
+            EventName="Appearing"
+            BindingContext="{Binding Source={x:Reference NavigationPage}, Path=BindingContext}"/>
+        <toolkit:EventToCommandBehavior
+            Command="{Binding DisappearingCommand}"
+            EventName="Disappearing"
+            BindingContext="{Binding Source={x:Reference NavigationPage}, Path=BindingContext}"/>
+    </ContentPage.Behaviors>
 
+    <Grid RowDefinitions="Auto, Auto">
+
+        <Label Grid.Row="0"
+               Text="{Binding Destination}"/>
+
+        <Label Grid.Row="1"
+               Text="{Binding Delta}"/>
 
     </Grid>
 </ContentPage>

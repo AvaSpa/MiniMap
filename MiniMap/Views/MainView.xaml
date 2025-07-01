@@ -6,13 +6,19 @@
              x:Class="MiniMap.Views.MainView"  
              x:DataType="vm:MainViewModel">
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, *"
+          ColumnDefinitions="*, *">
 
-        <Button Grid.Row="0"
+        <Button Grid.Row="0" Grid.Column="0"
             Text="Save Current Location" Command="{Binding SaveCurrentLocationCommand}" 
-            HorizontalOptions="Start" VerticalOptions="Start"/>
+            VerticalOptions="Center"/>
+        <Button Grid.Row="0" Grid.Column="1"
+                Text="Navigate" Command="{Binding NavigateToLocationCommand}" 
+                VerticalOptions="Center"/>
 
-        <CollectionView Grid.Row="1"
+        <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedLocation}"
                         ItemsSource="{Binding Locations}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="decorators:LocationDecoratorViewModel">

@@ -1,16 +1,43 @@
 ﻿using Core.Enums;
 using Core.Interfaces;
 using Core.Models;
+using Core.Notifications;
+using MediatR;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Devices.Sensors;
 
 namespace Infrastructure.Services;
 
-/// <summary>
-/// TODO: implement live location updates with start, stop methods and changed notification
-/// </summary>
 public class LocationService : ILocationService
 {
+    private readonly IMediator _mediator;
+
+    public LocationService(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
+    public void StartMonitoringLocation()
+    {
+        if (Geolocation.Default.IsListeningForeground)
+            return;
+
+        var request = new GeolocationListeningRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(1));
+
+        Geolocation.Default.LocationChanged += OnLocationChanged;
+
+        Geolocation.Default.StartListeningForegroundAsync(request);
+    }
+
+    public void StopMonitoringLocation()
+    {
+        if (!Geolocation.Default.IsListeningForeground)
+            return;
+        
+        Geolocation.Default.LocationChanged -= OnLocationChanged;
+        Geolocation.Default.StopListeningForeground();
+    }
+
     public async Task<ILocationResult> GetCurrentLocation()
     {
         var errorLocation = new Core.Models.Location("Error", 0, 0)
@@ -52,5 +79,11 @@ public class LocationService : ILocationService
         {
             return new LocationResult(LocationStatus.UnknownError, errorLocation);
         }
+    }
+
+    private void OnLocationChanged(object? sender, GeolocationLocationChangedEventArgs e)
+    {
+        var location = new Core.Models.Location("Moving Location", e.Location.Latitude, e.Location.Longitude);
+        _mediator.Publish(new LocationChangedNotification(location));
     }
 }

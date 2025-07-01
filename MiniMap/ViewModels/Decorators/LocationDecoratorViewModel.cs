@@ -63,4 +63,6 @@ public class LocationDecoratorViewModel : ObservableObject
             }
         }
     }
+
+    public ILocation Model => _model;
 }

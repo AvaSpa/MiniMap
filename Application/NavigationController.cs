@@ -1,17 +1,19 @@
 ﻿using Core.Commands;
 using Core.Interfaces;
 using Core.Notifications;
+using Core.Queries;
 using MediatR;
 
 namespace Application;
 
-/// <summary>
-/// TODO: implement command handler for start navigation and stop navigation
-/// in start stop navigation call navigation and location services start and stop methods
-/// </summary>
+//TODO: command/query handlers are transient; make separate classes for them and inject the controllers (also readd interfaces for the controllers)
+
 public class NavigationController : INotificationHandler<HeadingChangedNotification>,
     INotificationHandler<LocationChangedNotification>,
-    IRequestHandler<SetDestinationCommand>
+    IRequestHandler<SetDestinationCommand>,
+    IRequestHandler<StartNavigationCommand>,
+    IRequestHandler<StopNavigationCommand>,
+    IRequestHandler<GetDestinationQuery, ILocation>
 {
     private IHeading _heading;
     private ILocation _location;
@@ -19,11 +21,13 @@ public class NavigationController : INotificationHandler<HeadingChangedNotificat
 
     private readonly IMediator _mediator;
     private readonly INavigationService _navigationService;
+    private readonly ILocationService _locationService;
 
-    public NavigationController(IMediator mediator, INavigationService navigationService)
+    public NavigationController(IMediator mediator, INavigationService navigationService, ILocationService locationService)
     {
         _mediator = mediator;
         _navigationService = navigationService;
+        _locationService = locationService;
     }
 
     public async Task Handle(HeadingChangedNotification notification, CancellationToken cancellationToken)
@@ -47,6 +51,27 @@ public class NavigationController : INotificationHandler<HeadingChangedNotificat
         _destination = request.Destination;
 
         return Task.CompletedTask;
+    }
+
+    public Task Handle(StartNavigationCommand request, CancellationToken cancellationToken)
+    {
+        _navigationService.StartMonitoringCompass();
+        _locationService.StartMonitoringLocation();
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(StopNavigationCommand request, CancellationToken cancellationToken)
+    {
+        _navigationService.StopMonitoringCompass();
+        _locationService.StopMonitoringLocation();
+
+        return Task.CompletedTask;
+    }
+
+    public Task<ILocation> Handle(GetDestinationQuery request, CancellationToken cancellationToken)
+    {
+        return Task.FromResult(_destination);
     }
 
     private double GetDirectionDelta()
