@@ -70,7 +70,8 @@ public partial class MainViewModel : ObservableObject
         await Shell.Current.GoToAsync(Routes.NavigationRoute);
     }
 
-    public async Task OnAppearing()
+    [RelayCommand]
+    public async Task Appearing()
     {
         var locations = await _mediator.Send(new GetLocationsQuery(true));
 

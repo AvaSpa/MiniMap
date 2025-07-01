@@ -7,7 +7,6 @@
              x:DataType="vm:NavigationViewModel"
              x:Name="NavigationPage">
 
-    <!--TODO: try the same with MainView-->
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior
             Command="{Binding AppearingCommand}"

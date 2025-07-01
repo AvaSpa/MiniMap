@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-             xmlns:vm="clr-namespace:MiniMap.ViewModels" 
-             xmlns:decorators="clr-namespace:MiniMap.ViewModels.Decorators"
+             xmlns:vm="clr-namespace:MiniMap.ViewModels"  
+             xmlns:decorators="clr-namespace:MiniMap.ViewModels.Decorators"  
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"  
              x:Class="MiniMap.Views.MainView"  
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+             x:Name="MainPage">
 
-    <Grid RowDefinitions="Auto, *"
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            Command="{Binding AppearingCommand}"
+            EventName="Appearing"
+            BindingContext="{Binding Source={x:Reference MainPage}, Path=BindingContext}"/>
+    </ContentPage.Behaviors>
+
+    <Grid RowDefinitions="Auto, *"  
           ColumnDefinitions="*, *">
 
-        <Button Grid.Row="0" Grid.Column="0"
-            Text="Save Current Location" Command="{Binding SaveCurrentLocationCommand}" 
+        <Button Grid.Row="0" Grid.Column="0"  
+            Text="Save Current Location" Command="{Binding SaveCurrentLocationCommand}"   
             VerticalOptions="Center"/>
-        <Button Grid.Row="0" Grid.Column="1"
-                Text="Navigate" Command="{Binding NavigateToLocationCommand}" 
+        <Button Grid.Row="0" Grid.Column="1"  
+                Text="Navigate" Command="{Binding NavigateToLocationCommand}"   
                 VerticalOptions="Center"/>
 
-        <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedLocation}"
+        <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  
+                        SelectionMode="Single"  
+                        SelectedItem="{Binding SelectedLocation}"  
                         ItemsSource="{Binding Locations}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="decorators:LocationDecoratorViewModel">
@@ -34,4 +43,4 @@
         </CollectionView>
 
     </Grid>
-</ContentPage>
+</ContentPage>      
