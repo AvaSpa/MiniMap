@@ -2,5 +2,5 @@
 
 public interface ILocationService
 {
-    Task<ILocation> GetCurrentLocation();
+    Task<ILocationResult> GetCurrentLocation();
 }

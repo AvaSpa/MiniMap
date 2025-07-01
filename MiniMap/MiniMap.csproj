@@ -60,18 +60,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AndroidResource Remove="Behaviors\**" />
-	  <AndroidResource Remove="Models\**" />
-	  <Compile Remove="Behaviors\**" />
-	  <Compile Remove="Models\**" />
-	  <EmbeddedResource Remove="Behaviors\**" />
-	  <EmbeddedResource Remove="Models\**" />
-	  <MauiCss Remove="Behaviors\**" />
-	  <MauiCss Remove="Models\**" />
-	  <MauiXaml Remove="Behaviors\**" />
-	  <MauiXaml Remove="Models\**" />
-	  <None Remove="Behaviors\**" />
-	  <None Remove="Models\**" />
+		<AndroidResource Remove="Behaviors\**" />
+		<AndroidResource Remove="Models\**" />
+		<Compile Remove="Behaviors\**" />
+		<Compile Remove="Models\**" />
+		<EmbeddedResource Remove="Behaviors\**" />
+		<EmbeddedResource Remove="Models\**" />
+		<MauiCss Remove="Behaviors\**" />
+		<MauiCss Remove="Models\**" />
+		<MauiXaml Remove="Behaviors\**" />
+		<MauiXaml Remove="Models\**" />
+		<None Remove="Behaviors\**" />
+		<None Remove="Models\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -83,19 +83,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\MainView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\NavigationView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Views\MainView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\NavigationView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Application\Application.csproj" />
-	  <ProjectReference Include="..\Core\Core.csproj" />
-	  <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-	  <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\Application\Application.csproj" />
+		<ProjectReference Include="..\Core\Core.csproj" />
+		<ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

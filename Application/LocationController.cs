@@ -1,11 +1,13 @@
 ﻿using Core.Commands;
+using Core.Enums;
 using Core.Interfaces;
+using Core.Models;
 using Core.Queries;
 using MediatR;
 
 namespace Application;
 
-public class LocationController : IRequestHandler<SaveLocationCommand>, IRequestHandler<SaveCurrentLocationCommand, ILocation>, IRequestHandler<GetLocationsQuery, IEnumerable<ILocation>>
+public class LocationController : IRequestHandler<SaveLocationCommand>, IRequestHandler<SaveCurrentLocationCommand, ILocationSaveResult>, IRequestHandler<GetLocationsQuery, IEnumerable<ILocation>>
 {
     private readonly ILocationService _locationService;
     private readonly ILocationRepository _locationRepository;
@@ -21,13 +23,14 @@ public class LocationController : IRequestHandler<SaveLocationCommand>, IRequest
         await _locationRepository.SaveLocation(request.Location);
     }
 
-    public async Task<ILocation> Handle(SaveCurrentLocationCommand request, CancellationToken cancellationToken)
+    public async Task<ILocationSaveResult> Handle(SaveCurrentLocationCommand request, CancellationToken cancellationToken)
     {
-        var location = await _locationService.GetCurrentLocation(); //TODO: handle all return cases properly after they are implemented in the method
+        var locationResult = await _locationService.GetCurrentLocation();
 
-        await _locationRepository.SaveLocation(location);
+        if (locationResult.Status == LocationStatus.Success)
+            await _locationRepository.SaveLocation(locationResult.Location);
 
-        return location;
+        return new LocationSaveResult(locationResult.Status, locationResult);
     }
 
     public async Task<IEnumerable<ILocation>> Handle(GetLocationsQuery request, CancellationToken cancellationToken)

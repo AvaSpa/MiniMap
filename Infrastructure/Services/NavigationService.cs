@@ -4,7 +4,7 @@ using Core.Notifications;
 using MediatR;
 using Microsoft.Maui.Devices.Sensors;
 
-namespace Infrastructure;
+namespace Infrastructure.Services;
 
 public class NavigationService : INavigationService
 {

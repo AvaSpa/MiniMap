@@ -3,6 +3,6 @@ using MediatR;
 
 namespace Core.Commands;
 
-public class SaveCurrentLocationCommand : IRequest<ILocation>
+public class SaveCurrentLocationCommand : IRequest<ILocationSaveResult>
 {
 }

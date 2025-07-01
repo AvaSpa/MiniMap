@@ -2,8 +2,9 @@
 using CommunityToolkit.Maui;
 using Core.Interfaces;
 using DataAccess;
-using Infrastructure;
+using Infrastructure.Services;
 using Microsoft.Extensions.Logging;
+using MiniMap.Utils;
 using MiniMap.ViewModels;
 using MiniMap.Views;
 
@@ -34,6 +35,7 @@ namespace MiniMap
             //simple dependencies
             builder.Services.AddSingleton<ILocationService, LocationService>();
             builder.Services.AddSingleton<INavigationService, NavigationService>();
+            builder.Services.AddSingleton<ILocationFeatureManager, LocationFeatureManager>();
 
             //initialized dependencies
             var dataDirectory = FileSystem.AppDataDirectory;
