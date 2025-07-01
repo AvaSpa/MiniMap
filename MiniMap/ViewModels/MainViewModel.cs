@@ -26,6 +26,8 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task SaveCurrentLocation()
     {
+        _locationFeatureManager.EnsureLocationFeatureIsEnabled();
+
         //TODO: add prompt for location name and description
 
         var locationSaveResult = await _mediator.Send(new SaveCurrentLocationCommand());
