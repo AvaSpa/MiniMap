@@ -1,8 +1,11 @@
-﻿using MediatR;
+﻿using Core.Interfaces;
+using MediatR;
 
 namespace Core.Notifications;
 
-public class DirectionDeltaChangedNotification(double delta) : INotification
+public class DirectionDeltaChangedNotification(int delta, ILocation currentLocation, IHeading currentHeading) : INotification
 {
-    public double Delta { get; } = delta;
+    public int Delta { get; } = delta;
+    public ILocation CurrentLocation { get; } = currentLocation;
+    public IHeading CurrentHeading { get; } = currentHeading;
 }

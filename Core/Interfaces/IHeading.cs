@@ -2,5 +2,5 @@
 
 public interface IHeading
 {
-    double North { get; set; }
+    int North { get; set; }
 }

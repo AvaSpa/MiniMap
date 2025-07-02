@@ -10,7 +10,7 @@ public class NavigationService : INavigationService
 {
     private readonly IMediator _mediator;
 
-    private double _currentHeading;
+    private int _currentHeading;
 
     public NavigationService(IMediator mediator)
     {
@@ -52,7 +52,7 @@ public class NavigationService : INavigationService
         double bearingRad = Math.Atan2(y, x);
         double bearingDeg = (RadiansToDegrees(bearingRad) + 360) % 360;
 
-        return new Heading(bearingDeg);
+        return new Heading((int)Math.Round(bearingDeg));
     }
 
     private double DegreesToRadians(double degrees)
@@ -67,7 +67,12 @@ public class NavigationService : INavigationService
 
     private void OnCompassReadingChanged(object? sender, CompassChangedEventArgs e)
     {
-        _currentHeading = e.Reading.HeadingMagneticNorth;
+        var newHeading = Math.Round(e.Reading.HeadingMagneticNorth);
+        var headingDifference = Math.Abs(newHeading - _currentHeading);
+        if (headingDifference < 2.0)
+            return;
+
+        _currentHeading = (int)newHeading;
         _mediator.Publish(new HeadingChangedNotification(new Heading(_currentHeading)));
     }
 }

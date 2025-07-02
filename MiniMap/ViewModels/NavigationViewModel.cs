@@ -1,14 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Core.Commands;
 using Core.Interfaces;
-using Core.Notifications;
 using Core.Queries;
 using MediatR;
+using MiniMap.Messages;
 
 namespace MiniMap.ViewModels;
 
-public partial class NavigationViewModel : ObservableObject, INotificationHandler<DirectionDeltaChangedNotification>
+public partial class NavigationViewModel : ObservableObject, IRecipient<DirectionDeltaChangedMessage>
 {
     [ObservableProperty]
     private ILocation _destination;
@@ -16,11 +17,19 @@ public partial class NavigationViewModel : ObservableObject, INotificationHandle
     [ObservableProperty]
     private string _delta;
 
+    [ObservableProperty]
+    private ILocation _currentLocation;
+
+    [ObservableProperty]
+    private int _currentHeading;
+
     private readonly IMediator _mediator;
 
     public NavigationViewModel(IMediator mediator)
     {
         _mediator = mediator;
+
+        WeakReferenceMessenger.Default.Register(this);
     }
 
     [RelayCommand]
@@ -37,9 +46,11 @@ public partial class NavigationViewModel : ObservableObject, INotificationHandle
         _mediator.Send(new StopNavigationCommand()).Wait();
     }
 
-    public async Task Handle(DirectionDeltaChangedNotification notification, CancellationToken cancellationToken)
+    public void Receive(DirectionDeltaChangedMessage message)
     {
         //TODO: update the UI with the new direction delta
-        Delta = $"{notification.Delta}°";
+        Delta = $"{message.Delta}°";
+        CurrentLocation = message.Location;
+        CurrentHeading = message.Bearing;
     }
 }

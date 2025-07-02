@@ -4,9 +4,9 @@ namespace Core.Models;
 
 public class Heading : IHeading
 {
-    public double North { get; set; }
+    public int North { get; set; }
 
-    public Heading(double north)
+    public Heading(int north)
     {
         North = north;
     }

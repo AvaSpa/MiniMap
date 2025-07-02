@@ -2,7 +2,7 @@
 
 public interface ILocationService
 {
-    void StartMonitoringLocation();
+    Task StartMonitoringLocation();
 
     void StopMonitoringLocation();
 

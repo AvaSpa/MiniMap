@@ -18,13 +18,19 @@
             BindingContext="{Binding Source={x:Reference NavigationPage}, Path=BindingContext}"/>
     </ContentPage.Behaviors>
 
-    <Grid RowDefinitions="Auto, Auto">
+    <Grid RowDefinitions="Auto, Auto, 200, Auto, Auto">
 
         <Label Grid.Row="0"
                Text="{Binding Destination}"/>
 
         <Label Grid.Row="1"
                Text="{Binding Delta}"/>
+
+        <Label Grid.Row="3"
+               Text="{Binding CurrentLocation}"/>
+
+        <Label Grid.Row="4"
+               Text="{Binding CurrentHeading}"/>
 
     </Grid>
 </ContentPage>

@@ -26,14 +26,19 @@ namespace MiniMap
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
                typeof(LocationController).Assembly,
-               typeof(ILocation).Assembly));
+               typeof(ILocation).Assembly,
+               typeof(MainView).Assembly));
 
             //views and VMs
             builder.Services.AddSingleton<MainView, MainViewModel>();
             builder.Services.AddSingletonWithShellRoute<NavigationView, NavigationViewModel>(Routes.NavigationRoute);
 
             //simple dependencies
+#if ANDROID
+            builder.Services.AddSingleton<ILocationService, NativeAndroidLocationService>();
+#else
             builder.Services.AddSingleton<ILocationService, LocationService>();
+#endif
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<ILocationFeatureManager, LocationFeatureManager>();
             builder.Services.AddSingleton<INavigationController, NavigationController>();

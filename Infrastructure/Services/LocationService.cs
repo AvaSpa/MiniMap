@@ -17,23 +17,23 @@ public class LocationService : ILocationService
         _mediator = mediator;
     }
 
-    public void StartMonitoringLocation()
+    public async Task StartMonitoringLocation()
     {
         if (Geolocation.Default.IsListeningForeground)
             return;
 
-        var request = new GeolocationListeningRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(1));
+        var request = new GeolocationListeningRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(10));
 
         Geolocation.Default.LocationChanged += OnLocationChanged;
 
-        Geolocation.Default.StartListeningForegroundAsync(request);
+        await Geolocation.Default.StartListeningForegroundAsync(request);
     }
 
     public void StopMonitoringLocation()
     {
         if (!Geolocation.Default.IsListeningForeground)
             return;
-        
+
         Geolocation.Default.LocationChanged -= OnLocationChanged;
         Geolocation.Default.StopListeningForeground();
     }
