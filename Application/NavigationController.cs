@@ -8,7 +8,8 @@ namespace Application;
 
 //TODO: command/query handlers are transient; make separate classes for them and inject the controllers (also readd interfaces for the controllers)
 
-public class NavigationController : INotificationHandler<HeadingChangedNotification>,
+public class NavigationController : INavigationController,
+    INotificationHandler<HeadingChangedNotification>,
     INotificationHandler<LocationChangedNotification>,
     IRequestHandler<SetDestinationCommand>,
     IRequestHandler<StartNavigationCommand>,

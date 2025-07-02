@@ -36,6 +36,8 @@ namespace MiniMap
             builder.Services.AddSingleton<ILocationService, LocationService>();
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<ILocationFeatureManager, LocationFeatureManager>();
+            builder.Services.AddSingleton<INavigationController, NavigationController>();
+            builder.Services.AddSingleton<ILocationController, LocationController>();
 
             //initialized dependencies
             var dataDirectory = FileSystem.AppDataDirectory;

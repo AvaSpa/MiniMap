@@ -2,7 +2,7 @@
 
 namespace Core.Interfaces;
 
-public interface ILocationSaveResult
+public interface ICurrentLocationSaveResult
 {
     LocationStatus Status { get; set; }
 

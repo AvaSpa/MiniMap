@@ -46,7 +46,7 @@ public partial class MainViewModel : ObservableObject
                 await Toast.Make("Location permission denied.").Show();
                 break;
             case LocationStatus.LocationDisabled:
-                _locationFeatureManager.EnsureLocationFeatureIsEnabled();//TODO: call this also before navigating to the navigation page
+                _locationFeatureManager.EnsureLocationFeatureIsEnabled();
                 break;
             case LocationStatus.LocationUnavailable:
                 await Toast.Make("Location unavailable.").Show();
